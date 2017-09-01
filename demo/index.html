@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>count-down demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../count-down.html">
+
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+        count-down{
+          --slot:{
+            background-color: #0b8043;
+          };
+
+        }
+      </style>
+    </custom-style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic count-down demo</h3>
+      <demo-snippet>
+        <template>
+          <count-down ziel-datum="2018-03-15 09:00"></count-down>
+        </template>
+      </demo-snippet>
+    </div>
+  </body>
+</html>

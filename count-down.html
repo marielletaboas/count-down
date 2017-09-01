@@ -1,0 +1,116 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+
+<dom-module id="count-down">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+      }
+      .time-unit {
+        display: block;
+        position: relative;
+        top: -25px;
+        font-size: 13px;
+        text-transform: uppercase;
+      }
+      .slot {
+        padding: 10px 0 0 0;
+        font-family: 'Montserrat', sans-serif;
+        background-color: #FFFFFF;
+        border: 3px solid #00a6e2;
+        color: #00a6e2;
+        border-radius: 50%;
+        width: 110px;
+        height: 110px;
+        display: inline-block;
+        font-size: 50px;
+        text-align: center;
+        box-sizing: border-box;
+        line-height: 60px;
+        @apply(--slot);
+      }
+      @media only screen and (max-width: 40em) {
+        .slot {
+          width: 80px;
+          height: 80px;
+          margin-top: 10px;
+        }
+        .time-unit {
+          display: none;
+        }
+      }
+    </style>
+    <div class="slot">[[_tage]]
+      <div class="time-unit">Tage</div>
+    </div>
+    <div class="slot">[[_stunden]]
+      <div class="time-unit">Stunden</div>
+    </div>
+    <div class="slot">[[_minuten]]
+      <div class="time-unit">Minuten</div>
+    </div>
+    <div class="slot">[[_sekunden]]
+      <div class="time-unit">Sekunden</div>
+    </div>
+
+
+  </template>
+</dom-module>
+
+
+<script>
+    /**
+     *
+     *
+     */
+
+    class CountDown extends (Polymer.Element) {
+
+
+        static get is() {
+            return 'count-down';
+        }
+
+        static get properties() {
+            return {
+                zielDatum: {
+                    type: String,
+                    observer: '_init'
+                }
+            }
+        }
+
+        _init(zielDatum) {
+            let ziel = new Date(zielDatum);
+            let zielTimestamp = ziel.getTime() / 1000;
+            let self = this;
+            setInterval(() => {
+                let jetzt = new Date();
+                let jetztTimestamp = parseInt(jetzt.getTime() / 1000);
+                let differenz = zielTimestamp - jetztTimestamp;
+
+                let tage = Math.floor(differenz / 86400);
+                self.set('_tage', tage);
+
+                let restTage = differenz - (tage * 86400);
+                let stunden = Math.floor(restTage / 3600);
+                self.set('_stunden', self._padLeft(stunden, 2));
+
+                let restStunden = restTage - (stunden * 3600);
+                let minuten = Math.floor(restStunden / 60);
+                self.set('_minuten', self._padLeft(minuten, 2));
+
+                let sekunden = restStunden - (minuten * 60);
+                self.set('_sekunden', self._padLeft(sekunden, 2));
+            }, 1000)
+        }
+
+        _padLeft(nr, n, str) {
+            return Array(n - String(nr).length + 1).join(str || '0') + nr;
+        }
+    }
+
+    window.customElements.define(CountDown.is, CountDown);
+
+</script>
